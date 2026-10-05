@@ -1,5 +1,5 @@
+import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
 import Navbar from './components/Navbar'
 import About from './pages/About'
 import Home from './pages/Home'
@@ -8,18 +8,44 @@ import UserDetails from './pages/UserDetails'
 import Users from './pages/Users'
 
 function App() {
+  const [favoriteUsers, setFavoriteUsers] = useState([])
+  const [isDarkMode, setIsDarkMode] = useState(false)
+
+  const toggleFavorite = (userId) => {
+    setFavoriteUsers((currentFavorites) =>
+      currentFavorites.includes(userId)
+        ? currentFavorites.filter((id) => id !== userId)
+        : [...currentFavorites, userId],
+    )
+  }
+
   return (
     <BrowserRouter>
-      <Navbar />
-      <main className="app-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/users/:userId" element={<UserDetails />} />
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
+      <div className={isDarkMode ? 'min-h-screen bg-gray-950 text-gray-100' : 'min-h-screen bg-gray-50 text-gray-900'}>
+        <Navbar
+          favoriteCount={favoriteUsers.length}
+          isDarkMode={isDarkMode}
+          onToggleTheme={() => setIsDarkMode((current) => !current)}
+        />
+        <main className="mx-auto max-w-6xl px-6 py-10">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/users"
+              element={
+                <Users
+                  favoriteUsers={favoriteUsers}
+                  onToggleFavorite={toggleFavorite}
+                  isDarkMode={isDarkMode}
+                />
+              }
+            />
+            <Route path="/users/:userId" element={<UserDetails isDarkMode={isDarkMode} />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+      </div>
     </BrowserRouter>
   )
 }
