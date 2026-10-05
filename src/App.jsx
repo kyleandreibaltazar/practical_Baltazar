@@ -21,13 +21,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className={isDarkMode ? 'min-h-screen bg-gray-950 text-gray-100' : 'min-h-screen bg-gray-50 text-gray-900'}>
+      <div className={isDarkMode ? 'min-h-screen bg-slate-950 text-slate-100' : 'min-h-screen bg-slate-50 text-slate-900'}>
         <Navbar
           favoriteCount={favoriteUsers.length}
           isDarkMode={isDarkMode}
           onToggleTheme={() => setIsDarkMode((current) => !current)}
         />
-        <main className="mx-auto max-w-6xl px-6 py-10">
+        <main className="mx-auto max-w-6xl px-6 py-10 sm:py-14">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route

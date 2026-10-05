@@ -23,8 +23,8 @@ function Users({ favoriteUsers, onToggleFavorite, isDarkMode }) {
   )
 
   useEffect(() => {
-    document.title = `Users (${filteredUsers.length})`
-  }, [filteredUsers.length])
+    document.title = 'Users'
+  }, [])
 
   if (isLoading) {
     return <Loader />
@@ -32,15 +32,24 @@ function Users({ favoriteUsers, onToggleFavorite, isDarkMode }) {
 
   return (
     <section>
-      <h1 className="mb-6 text-3xl font-bold">Users</h1>
-      <input
-        aria-label="Search users by name"
-        className={isDarkMode ? 'mb-8 w-full rounded border border-gray-700 bg-gray-900 px-4 py-2 text-white' : 'mb-8 w-full rounded border border-gray-300 bg-white px-4 py-2'}
-        onChange={(event) => setSearchTerm(event.target.value)}
-        placeholder="Search users"
-        type="search"
-        value={searchTerm}
-      />
+      <div className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+        <div>
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-cyan-500">The network</p>
+          <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Explore the <span className="text-cyan-500">collective.</span></h1>
+          <p className={isDarkMode ? 'mt-3 text-slate-400' : 'mt-3 text-slate-500'}>{filteredUsers.length} profiles ready to discover</p>
+        </div>
+        <div className="relative w-full sm:max-w-xs">
+          <span className="pointer-events-none absolute left-4 top-2.5 text-slate-400">⌕</span>
+          <input
+            aria-label="Search users by name"
+            className={isDarkMode ? 'w-full rounded-xl border border-slate-700 bg-slate-900 px-10 py-3 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20' : 'w-full rounded-xl border border-slate-200 bg-white px-10 py-3 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-100'}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Search by name..."
+            type="search"
+            value={searchTerm}
+          />
+        </div>
+      </div>
       <div className="grid gap-5 sm:grid-cols-2">
         {filteredUsers.length === 0 ? (
           <ErrorMessage />
